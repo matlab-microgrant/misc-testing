@@ -22,37 +22,54 @@ void setup() {
   }
   // for sign switch
   pinMode(sign_switch_pin, OUTPUT);
+
+  // setup i2c for ard-ard comms
+  Wire.begin();
+  Serial.begin(9600);
+
 }
 
 void loop() {
   // if 'set' switch is closed, begin experiment
-  if (digitalRead(dip_pins[5]) == 1) {
-    // executes differently depending on the experiment chosen
+  if (digitalRead(dip_pins[5]) == LOW) {
+    digitalWrite(13, HIGH);
     execute_program(dip_setting);
   } else { //otherwise, see what the controls say
     // read other pins to get values
     for (int i = 0; i < 5; i++) {
-      dip_vals[i] = digitalRead(dip_pins[i]);
+      dip_vals[i] = !digitalRead(dip_pins[i]);
     }
     for (int i = 0; i < 5; i++) {
-      bitSet(dip_setting, i, dip_vals[5 - 1 - i]);
+      bitWrite(dip_setting, i, dip_vals[5 - 1 - i]);
     }
     pot_val = analogRead(pot_pin);
-
+    Serial.println(dip_setting);
   }
 
-
+  delay(5);
 }
 
 void execute_program(byte exp_select) {
-  if (exp_select == 0) { //make uniform noise
-    // tell tx arduino what to do for this experiment
+  // tell tx arduino what experiment is happening
+  Wire.beginTransmission(9); // transmit to arduino with address 9 (tx ard)
+  Wire.write(exp_select);
+  Wire.endTransmission();
+
+  // different protocol for each experiment
+  if (exp_select == 1) { //make uniform noise
 
     // begin experiment
     while (true) {
       // check to see if user has ended experiment, and break if so
-      if (digitalRead(dip_pins[5]) == 0)
+      if (digitalRead(dip_pins[5]) == HIGH) {
+        digitalWrite(13, LOW);
+        // tell tx arduino what experiment is over
+        Wire.beginTransmission(9);
+        Wire.write(0);
+        Wire.endTransmission();
         break;
+      }
+
 
       // otherwise, do the experiment
       Wire.beginTransmission(MCP4725_ADDR);
@@ -66,11 +83,33 @@ void execute_program(byte exp_select) {
       delay(1);
     }
 
-  } else if (exp_select == 1) { //make gaussian noise
-    // tell tx arduino what to do for this experiment
-
-    // define noise profile
-
+  } else if (exp_select == 13) { //make gaussian noise
     // begin experiment
+    while (true) {
+      // check to see if user has ended experiment, and break if so
+      if (digitalRead(dip_pins[5]) == HIGH) {
+        digitalWrite(13, LOW);
+        // tell tx arduino what experiment is over
+        Wire.beginTransmission(9);
+        Wire.write(0);
+        Wire.endTransmission();
+        break;
+      }
+
+
+      // otherwise, do the experiment
+      Wire.beginTransmission(MCP4725_ADDR);
+      Wire.write(64);                     // cmd to update the DAC
+      int toSend = random(4096);
+      pot_val = analogRead(A0);
+      Serial.println(pot_val);
+      toSend = toSend/(pot_val/100);
+      Wire.write(toSend >> 4);        // the 8 most significant bits...
+      Wire.write((toSend & 15) << 4); // the 4 least significant bits...
+      Wire.endTransmission();
+      int sign_toSend = random(2);
+      digitalWrite(sign_switch_pin, sign_toSend);
+      delay(1);
+    }
   }
 }

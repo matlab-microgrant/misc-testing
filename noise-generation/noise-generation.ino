@@ -16,7 +16,7 @@ void setup()
   //which will power the MCP4725
   pinMode(A2, OUTPUT);
   pinMode(A3, OUTPUT);
-
+  pinMode(13, OUTPUT);
   digitalWrite(A2, LOW);//Set A2 as GND
   digitalWrite(A3, HIGH);//Set A3 as Vcc
 }
@@ -29,5 +29,11 @@ void loop() {
   Wire.write(toSend >> 4);        // the 8 most significant bits...
   Wire.write((toSend & 15) << 4); // the 4 least significant bits...
   Wire.endTransmission();
+  int flipper = random(2);
+  if (flipper == 1) {
+    digitalWrite(13, HIGH);
+  } else {
+    digitalWrite(13, LOW);
+  }
   delay(1);
 }
