@@ -43,10 +43,11 @@ void receiveEvent(int bytes) {
 void end_program() {
   digitalWrite(tx_pin, LOW);
 }
-
+//x currently does not ever change, is nothing
 void loop() {
   if (x == 0) {
     end_program();
+    //what is the purpose of these pulses
   } else if (x == 1) {
     // quarter-second pulses
     digitalWrite(tx_pin, HIGH);
