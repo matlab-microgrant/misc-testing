@@ -1,6 +1,7 @@
+//Purpose of POC?
 // Include the required Wire library for I2C
 #include <Wire.h>
-int LED = 13;
+int LED = 13; //is this the built in LED?
 int x = 0;
 void setup() {
   // Define the LED pin as Output

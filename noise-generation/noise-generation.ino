@@ -1,3 +1,4 @@
+//Purpose of code?
 #include <Wire.h>//Include the Wire library to talk I2C
 
 //This is the I2C Address of the MCP4725, by default (A0 pulled to GND).
@@ -12,7 +13,7 @@ void setup()
 {
   Wire.begin();
 
-  // Set A2 and A3 as Outputs to make them our GND and Vcc,
+  // Set A2 and A3 as Outputs to make them our GND and Vcc, GND?, Vcc?
   //which will power the MCP4725
   pinMode(A2, OUTPUT);
   pinMode(A3, OUTPUT);
@@ -25,11 +26,11 @@ void loop() {
   // put your main code here, to run repeatedly:
   Wire.beginTransmission(MCP4725_ADDR);
   Wire.write(64);                     // cmd to update the DAC
-  int toSend = random(4096);
+  int toSend = random(4096);// why random?
   Wire.write(toSend >> 4);        // the 8 most significant bits...
   Wire.write((toSend & 15) << 4); // the 4 least significant bits...
   Wire.endTransmission();
-  int flipper = random(2);
+  int flipper = random(2); //flipper?
   if (flipper == 1) {
     digitalWrite(13, HIGH);
   } else {

@@ -1,3 +1,4 @@
+//Purpose of this POC?
 // Include the required Wire library for I2C
 #include <Wire.h>
 int LED = 13;
@@ -13,7 +14,7 @@ void loop() {
   Wire.endTransmission();    // stop transmitting
   x++; // Increment x
   if (x > 5) x = 0; // `reset x once it gets 6
-  if (x == 3) {
+  if (x == 3) {//why 3?
     digitalWrite(LED, HIGH);
     delay(200);
     digitalWrite(LED, LOW);

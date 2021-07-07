@@ -53,7 +53,7 @@ void loop() {
       sendingData = true;
 
     } else if (message == "sample rate\n") {
-      // prepare to recieve new sample rate and then update it after receiving, why would this change?
+      // prepare to recieve new sample rate and then update it after receiving, why would this change/ what is current sample rate?
       while (!Serial.available() ) { }
       String newSampleRate = Serial.readString();
       float sampleRateHz = (newSampleRate.toFloat());
