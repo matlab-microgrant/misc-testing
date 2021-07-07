@@ -5,25 +5,20 @@
  * Version:  2
  * Date:     2021-07-07
  * 
- * This code is to be loaded onto the transmition Arduino. 
+ * This code is to be loaded onto the transmition Arduino - Redboard 1. 
  * 
  * 
- * This is a template for lab communication with the various boards.
- * This version simplifies MATLAB commands to a single line and parses them
- * instead ofMATLAB sending a command, waiting, then sending a follow up. 
- * For variables like the Sample Rate, MATLAB should write "sample rate:45".
- * This script will recognize that start of the string and convert the portion
- * after the ':' to correct necessary variable. 
- * For actions, MATLAB just needs to write the command like "Datapoint" or "LiveSampling"
- * for the sensor hardware to begin that process and output it. See the examples below. 
  * 
- * For data collection from the sensor(s), that activity should be created in the
- * function dataPoint() and outputted in a comma seperated format as a string.
- * For collecting multiple datapoints, there are elements incorporated below that
- * utilize multiple calls for the dataPoint() command. That may not be sufficient for
- * your needs to you may need to add a sampling() or dataset() function to open a
- * data stream or collect a finite set of datapoints. Keep in mind the output buffer 
- * is limited to 64 bytes. 
+ * This is a slave reciever of the master slave pair. 
+ * It responds to a new value of x is sent to it from the Noise Arduino to determine what 
+ * the transmission rate should be. 
+ * the 
+ * 
+ * For reference:
+ * https://www.arduino.cc/en/Reference/Wire
+ * https://www.arduino.cc/en/Tutorial/LibraryExamples/MasterWriter
+ * 
+ * 
  * 
  */
 
