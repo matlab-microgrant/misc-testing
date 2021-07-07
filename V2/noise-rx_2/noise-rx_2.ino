@@ -40,19 +40,20 @@ void setup() {
   
   // -------------------------------------------------------------
 }
-
+//Currently unable to change value being sent
 // The loop routine runs over and over again forever:
 void loop() {
-  // Write the sinewave points, followed by the terminator "Carriage Return" and "Linefeed".
+  // Write the sinewave points, followed by the terminator "Carriage Return" and "Linefeed". What are these?
+  //More explnation
   if (Serial.available() > 0) {
-    message = Serial.readString();
+    message = Serial.readString();//have to enter value into serial window
 
     if (message == "begin sampling\n") {
       // start sending data sampled to the computer
       sendingData = true;
 
     } else if (message == "sample rate\n") {
-      // prepare to recieve new sample rate and then update it after receiving
+      // prepare to recieve new sample rate and then update it after receiving, why would this change?
       while (!Serial.available() ) { }
       String newSampleRate = Serial.readString();
       float sampleRateHz = (newSampleRate.toFloat());
@@ -68,8 +69,9 @@ void loop() {
     // put data you want printed in the below line
     Serial.print(reading);
     // -------------------------------------------
-    Serial.write(13);
+    Serial.write(13);//what is the purpose of this serial write
     Serial.write(10);
+    //What is the goal of the light toggle
     if (lightToggle == false) {
       digitalWrite(LED_BUILTIN, HIGH);
       lightToggle = true;
@@ -78,6 +80,7 @@ void loop() {
       lightToggle = false;
     }
     i += 1;
+    //What is the purpose of the lines below? 
     if (Serial.available() > 0) {
       message = Serial.readString();
       if (message == "end sampling\n") {
