@@ -56,14 +56,14 @@ void loop() {
   // if 'set' switch is closed, begin experiment
   if (digitalRead(dip_pins[5]) == LOW) {
     digitalWrite(13, HIGH);
-    execute_program(dip_setting);
+    execute_program(dip_setting); //what does this program do
   } else { //otherwise, see what the controls say
     // read other pins to get values
     for (int i = 0; i < 5; i++) {
-      dip_vals[i] = !digitalRead(dip_pins[i]);
+      dip_vals[i] = !digitalRead(dip_pins[i]); //why would this be different than normal
     }
     for (int i = 0; i < 5; i++) {
-      bitWrite(dip_setting, i, dip_vals[5 - 1 - i]);
+      bitWrite(dip_setting, i, dip_vals[5 - 1 - i]); //Explanation needed
     }
     pot_val = analogRead(pot_pin);
     Serial.println(dip_setting);
@@ -72,7 +72,7 @@ void loop() {
   delay(5);
 }
 
-void execute_program(byte exp_select) {
+void execute_program(byte exp_select) {//what does this program do, how do you manipulate this value
   // tell tx arduino what experiment is happening
   Wire.beginTransmission(9); // transmit to arduino with address 9 (tx ard)
   Wire.write(exp_select);
@@ -94,7 +94,7 @@ void execute_program(byte exp_select) {
       }
 
 
-      // otherwise, do the experiment
+      // otherwise, do the experiment, more explanation necessary
       Wire.beginTransmission(MCP4725_ADDR);
       Wire.write(64);                     // cmd to update the DAC
       int toSend = random(4096);
@@ -120,7 +120,7 @@ void execute_program(byte exp_select) {
       }
 
 
-      // otherwise, do the experiment
+      // otherwise, do the experiment, more explanation, why is pot_val checked again
       Wire.beginTransmission(MCP4725_ADDR);
       Wire.write(64);                     // cmd to update the DAC
       int toSend = random(4096);
