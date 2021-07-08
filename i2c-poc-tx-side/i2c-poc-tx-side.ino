@@ -1,4 +1,4 @@
-//Purpose of POC?
+//Recieving I2C POC from noise arduino
 // Include the required Wire library for I2C
 #include <Wire.h>
 int LED = 13; //is this the built in LED?
