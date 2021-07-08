@@ -22,32 +22,32 @@
  * 
  */
 
-#include <Wire.h>//Include the Wire library to talk I2C
+#include <Wire.h>//Include the Wire library to talk I2C, communication protocol
 
 int tx_pin = 13;
 int x = 0;
 
 void setup() {
   // put your setup code here, to run once:
-  Wire.begin(9);
+  Wire.begin(9); //tx address is 9, arbitrary 
   Wire.onReceive(receiveEvent);
   // onRecieve registers a function to be called when a slave device receives a transmission from a master.
   pinMode(tx_pin, OUTPUT);
   Serial.begin(9600);
 }
 void receiveEvent(int bytes) {
-  x = Wire.read();    // read one character from the I2C
+  x = Wire.read();    // read one character from I2C
   Serial.println(x);
 }
 
-void end_program() {
+void end_program() { //if you get zero, end program, right now its turn LED off
   digitalWrite(tx_pin, LOW);
 }
-//x currently does not ever change, is nothing
+
 void loop() {
   if (x == 0) {
     end_program();
-    //what is the purpose of these pulses
+    //signal profile of each experiment
   } else if (x == 1) {
     // quarter-second pulses
     digitalWrite(tx_pin, HIGH);

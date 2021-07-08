@@ -1,6 +1,7 @@
-//Purpose of POC?
+//Trying and failing at generating different types of noise
+//Ask Patrick 
 float pdf(const float &x) {
-  return 1 / sqrtf(2 * M_PI) * exp(-x * x * 0.5);
+  return 1 / sqrtf(2 * M_PI) * exp(-x * x * 0.5); 
 }
 int nbins = 32; //what does this stand for?
 float minBound = -5;

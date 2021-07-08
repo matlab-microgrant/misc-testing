@@ -1,4 +1,4 @@
-//Purpose of this POC?
+//Prooving that I know how I2C works
 // Include the required Wire library for I2C
 #include <Wire.h>
 int LED = 13;

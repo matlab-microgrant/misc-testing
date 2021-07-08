@@ -43,9 +43,9 @@ void setup() {
 //Currently unable to change value being sent
 // The loop routine runs over and over again forever:
 void loop() {
-  // Write the sinewave points, followed by the terminator "Carriage Return" and "Linefeed". What are these?
+  // Write the sinewave points, followed by the terminator "Carriage Return" and "Linefeed". Ascii table values showing invisible characters
   //More explnation
-  if (Serial.available() > 0) {
+  if (Serial.available() > 0) {//Greater than zero because it returns how many bytes it is
     message = Serial.readString();//have to enter value into serial window
 
     if (message == "begin sampling\n") {
@@ -53,7 +53,8 @@ void loop() {
       sendingData = true;
 
     } else if (message == "sample rate\n") {
-      // prepare to recieve new sample rate and then update it after receiving, why would this change/ what is current sample rate?
+      // prepare to recieve new sample rate and then update it after receiving
+      // For other experiments to sample at different rates
       while (!Serial.available() ) { }
       String newSampleRate = Serial.readString();
       float sampleRateHz = (newSampleRate.toFloat());
@@ -67,11 +68,11 @@ void loop() {
     int reading = analogRead(A0);
     
     // put data you want printed in the below line
-    Serial.print(reading);
+    Serial.print(reading); //sends to MATLAB
     // -------------------------------------------
-    Serial.write(13);//what is the purpose of this serial write
+    Serial.write(13);//Line ending, invisiable 
     Serial.write(10);
-    //What is the goal of the light toggle
+    //Flashes LED when sampling
     if (lightToggle == false) {
       digitalWrite(LED_BUILTIN, HIGH);
       lightToggle = true;
@@ -80,8 +81,8 @@ void loop() {
       lightToggle = false;
     }
     i += 1;
-    //What is the purpose of the lines below? 
-    if (Serial.available() > 0) {
+    //Breaks loop
+    if (Serial.available() > 0) {//if there is a new message, read it
       message = Serial.readString();
       if (message == "end sampling\n") {
         sendingData = false;

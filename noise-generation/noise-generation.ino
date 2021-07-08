@@ -1,4 +1,5 @@
-//Purpose of code?
+//First attempt at making noise
+//Connect to DAC and generate random values
 #include <Wire.h>//Include the Wire library to talk I2C
 
 //This is the I2C Address of the MCP4725, by default (A0 pulled to GND).
